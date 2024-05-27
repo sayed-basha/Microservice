@@ -2,20 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Deploy To Kubernetes') {
+        stage('deploy') {
             steps {
-                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'EKS-1', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'https://9F39F577334FF23706994135261985F2.gr7.ap-south-1.eks.amazonaws.com']]) {
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: '', contextName: 'EKS-1', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'https://E29643FA9A64AB8E611F2E157F1C0808.gr7.ap-south-1.eks.amazonaws.com']]) {
                     sh "kubectl apply -f deployment-service.yml"
-                    
-                }
+               }
             }
         }
         
-        stage('verify Deployment') {
+        
+        stage('verify') {
             steps {
-                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'EKS-1', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'https://9F39F577334FF23706994135261985F2.gr7.ap-south-1.eks.amazonaws.com']]) {
-                    sh "kubectl get svc -n webapps"
-                }
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: '', contextName: 'EKS-1', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'https://E29643FA9A64AB8E611F2E157F1C0808.gr7.ap-south-1.eks.amazonaws.com']]) {
+                    sh "kubectl get all -n webapps"
+                 }
             }
         }
     }
